@@ -15,9 +15,11 @@ Future<void> setupDI() async {
 
   // Audio
   final player = AudioPlayer();
+  final effectsPlayer = AudioPlayer();
   getIt.registerSingleton<AudioPlayer>(player);
+  getIt.registerSingleton<AudioPlayer>(effectsPlayer, instanceName: 'effects');
   getIt.registerLazySingleton(
-    () => AppAudioService(player),
+    () => AppAudioService(player, effectsPlayer),
     dispose: (as) => as.dispose(),
   );
 

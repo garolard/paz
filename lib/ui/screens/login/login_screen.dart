@@ -14,8 +14,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
-    with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
   late final audio = di<AppAudioService>();
   late final dismissController = AnimationController(vsync: this);
 
@@ -73,10 +72,7 @@ class _LoginScreenState extends State<LoginScreen>
                         )
                         .animate()
                         .fadeIn(delay: 500.ms, duration: 2.seconds)
-                        .blur(
-                          begin: const Offset(2.0, 2.0),
-                          end: const Offset(0, 0),
-                        )
+                        .blur(begin: const Offset(2.0, 2.0), end: const Offset(0, 0))
                         .then(delay: 1.seconds)
                         .slideY(end: -3.0, curve: Curves.easeInOutCubic),
               ),
@@ -91,23 +87,14 @@ class _LoginScreenState extends State<LoginScreen>
                               spacing: 24,
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Relájate...'),
-                                Icon(Icons.arrow_forward),
-                              ],
+                              children: [Text('Relájate...'), Icon(Icons.arrow_forward)],
                             ),
                           )
                           .animate(delay: 4500.ms)
                           .fadeIn(duration: 1500.ms)
-                          .animate(
-                            controller: dismissController,
-                            autoPlay: false,
-                          )
+                          .animate(controller: dismissController, autoPlay: false)
                           .fadeOut(duration: 300.ms)
-                          .blur(
-                            begin: const Offset(0, 0),
-                            end: const Offset(2.0, 2.0),
-                          ),
+                          .blur(begin: const Offset(0, 0), end: const Offset(2.0, 2.0)),
                 ),
               ),
             ],
@@ -127,11 +114,10 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> navigateToHome() async {
+    audio.playSoundEffect('water-drop.mp3');
     dismissController.addListener(() async {
       if (dismissController.isCompleted && context.mounted) {
-        Navigator.of(
-          context,
-        ).pushReplacement(CustomPageRoute(const HomeScreen()));
+        Navigator.of(context).pushReplacement(CustomPageRoute(const HomeScreen()));
       }
     });
     dismissController.forward();

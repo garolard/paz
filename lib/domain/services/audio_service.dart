@@ -5,8 +5,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:just_audio/just_audio.dart' show AudioPlayer, AudioSource, LoopMode;
 
 class AppAudioService {
-  AppAudioService(this._player);
+  AppAudioService(this._player, this._effectsPlayer);
   final AudioPlayer _player;
+  final AudioPlayer _effectsPlayer;
 
   Future<void> init() async {
     final session = await AudioSession.instance;
@@ -24,6 +25,12 @@ class AppAudioService {
     await _player.setAudioSource(AudioSource.asset('assets/audio/$asset'));
     _player.setLoopMode(loop ? LoopMode.one : LoopMode.off);
     await _fadeIn(duration: 2.seconds, targetVolume: .6);
+  }
+
+  Future<void> playSoundEffect(String asset) async {
+    await _effectsPlayer.setAudioSource(AudioSource.asset('assets/audio/$asset'));
+    await _effectsPlayer.setVolume(.35);
+    await _effectsPlayer.play();
   }
 
   Future<void> pause() async {
@@ -78,5 +85,6 @@ class AppAudioService {
 
   void dispose() {
     _player.dispose();
+    _effectsPlayer.dispose();
   }
 }
